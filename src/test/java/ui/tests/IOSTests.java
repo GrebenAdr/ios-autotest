@@ -62,7 +62,6 @@ public class IOSTests extends ConfProperties {
         //((JavascriptExecutor) driver).executeScript("document.querySelector('.button-ok').scrollIntoView({block: \"end\", behavior: \"smooth\"});")
         //element.clear();
         //Dimension elementSize = element.getSize();
-        //element.click();
         //WebElement currentElement = driver.switchTo().activeElement();
         //MobileElement element = (MobileElement) driver.findElementByClassName("SomeClassName");
         //element.submit();
