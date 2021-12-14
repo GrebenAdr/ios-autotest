@@ -5,9 +5,13 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.openqa.selenium.support.PageFactory;
+import ui.config.ConfProperties;
 
-public class LoginElements {
+@Data
+public class LoginElements extends ConfProperties {
 
     private AppiumDriver appiumDriver;
 
@@ -35,28 +39,9 @@ public class LoginElements {
     @iOSXCUITFindBy(xpath = "//*[@label='Mobile for SMS verification:']")
     public MobileElement laFirstText;
 
-//    driver.findElements(By.id("your_id")).get(1)
-
     public LoginElements(AppiumDriver appiumDriver) {
         this.appiumDriver = appiumDriver;
         PageFactory.initElements(new AppiumFieldDecorator(appiumDriver), this);
-    }
-
-    public void sendPhoneNumber(){
-        loginField.clear();
-        loginField.sendKeys("+15552222222");
-    }
-
-    public void sendCode() {
-        passField.sendKeys("123123");
-    }
-
-    public void acceptUserAgreement() {
-        labelAgree.click();
-    }
-
-    public void submitLogBtn() {
-        submitBtn.click();
     }
 
 }

@@ -5,8 +5,10 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
+import lombok.Data;
 import org.openqa.selenium.support.PageFactory;
 
+@Data
 public class Meetings {
     private AppiumDriver appiumDriver;
 
@@ -19,7 +21,4 @@ public class Meetings {
         PageFactory.initElements(new AppiumFieldDecorator(appiumDriver), this);
     }
 
-    public void clickOnPlusBtn(){
-        plusBtn.click();
-    }
 }

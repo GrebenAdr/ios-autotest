@@ -9,17 +9,20 @@ import lombok.Data;
 import org.openqa.selenium.support.PageFactory;
 
 @Data
-public class SwipeWindow {
+public class TabBar {
 
     private AppiumDriver appiumDriver;
 
-//    @AndroidFindBy(accessibility = "itemMenu")
-//    @iOSXCUITFindBy(accessibility = "itemMenu")
-//    public MobileElement itemMenu;
+    @AndroidFindBy(accessibility = "tabBarSwipeBtn")
+    @iOSXCUITFindBy(accessibility = "tabBarSwipeBtn")
+    public MobileElement tabBarSwipeBtn;
 
-    public SwipeWindow(AppiumDriver appiumDriver) {
+    @AndroidFindBy(accessibility = "tabBarProfileBtn")
+    @iOSXCUITFindBy(accessibility = "tabBarProfileBtn")
+    public MobileElement tabBarProfileBtn;
+
+    public TabBar(AppiumDriver appiumDriver) {
         this.appiumDriver = appiumDriver;
         PageFactory.initElements(new AppiumFieldDecorator(appiumDriver), this);
     }
-
 }

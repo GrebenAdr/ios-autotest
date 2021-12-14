@@ -5,8 +5,10 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
+import lombok.Data;
 import org.openqa.selenium.support.PageFactory;
 
+@Data
 public class Profile {
     private AppiumDriver appiumDriver;
 
@@ -23,10 +25,4 @@ public class Profile {
         PageFactory.initElements(new AppiumFieldDecorator(appiumDriver), this);
     }
 
-    public void clickOnSettingsBtn(){
-        profileSettingsBtn.click();
-    }
-    public void clickOnLogoutBtn(){
-        signOutBtn.click();
-    }
 }

@@ -2,18 +2,22 @@ package ui.tests;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.qameta.allure.Feature;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import ui.config.ConfProperties;
+import ui.config.TestResultsListener;
 import ui.pages.*;
+import ui.steps.StepSuit;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
+@Listeners(TestResultsListener.class)
+@Feature("Smoke UI Login tests")
 public class IOSTests extends ConfProperties {
 
     LoginElements loginElements;
@@ -21,6 +25,8 @@ public class IOSTests extends ConfProperties {
     Contacts contacts;
     Meetings meetings;
     Profile profile;
+    TabBar tabBar;
+    StepSuit stepSuit;
 
     public static AppiumDriver appiumDriver;
 
@@ -48,50 +54,27 @@ public class IOSTests extends ConfProperties {
         contacts = new Contacts(appiumDriver);
         meetings = new Meetings(appiumDriver);
         profile = new Profile(appiumDriver);
+        tabBar = new TabBar(appiumDriver);
+//        stepSuit = new StepSuit(appiumDriver);
     }
 
-    @Test
-    public void login() throws InterruptedException {
-        // TODO: 29.11.2021 найти способ сброса кешей или переустановки приложения, либо делать разлогин каждый раз перед закуском тестов
-//        if (loginElements.laFirstText.getText()){
-        loginElements.sendPhoneNumber();
-        loginElements.acceptUserAgreement();
-        loginElements.submitLogBtn();
-        loginElements.sendCode();
+    @Test(description = "Логин в приложение")
+    public void login() {
+//        stepSuit.login();
+        loginElements.getLoginField().clear();
+        loginElements.getLoginField().sendKeys("+15552222222");
+        loginElements.getLabelAgree().click();
+        loginElements.getSubmitBtn().click();
+        loginElements.getPassField().sendKeys("123123");
         Assert.assertNotNull(loginElements.laLabel.getText(), "Ошибка логина");
-//        Assert.assertEquals(loginElements.laLabel.getText(), "VentureSurf", "Ошибка логина");
-//        }
-    }
-
-    //    @Test
-    public void testSwipe() {
-        swipeWindow.clickOnItemMenu();
-    }
-
-    //    @Test
-    public void contacts() {
-        contacts.clickOnPlusBtn();
-    }
-
-    //    @Test
-    public void meetings() {
-        meetings.clickOnPlusBtn();
-    }
-
-    //    @Test
-    public void profile() {
-        profile.clickOnSettingsBtn();
     }
 
     // TODO: 10.12.2021 Не всегда логин проходит и тогда этот AfterClass тоже будет выдавать ошибку. Усовершенствовать
     @AfterClass
     public void logout() {
-        // TODO: 10.12.2021 Не видит id. Либо не тот указал, либо не там указал в приложении
-//        swipeWindow.clickOnTabBarProfileBtn();
-        profile.clickOnSettingsBtn();
-        // TODO: 10.12.2021 Можно добавить скролл(но не обязательно - работает и без него)
-        profile.clickOnLogoutBtn();
-        // TODO: 10.12.2021 Поиск работает. Немного переделать assert
+//        stepSuit.logout();
+        profile.getProfileSettingsBtn().click();
+        profile.getSignOutBtn().click();
         Assert.assertNotNull(loginElements.laFirstText.getText(), "Ошибка логаута");
     }
 
@@ -122,22 +105,6 @@ public class IOSTests extends ConfProperties {
 
     //List<MobileElement> elementsOne = (List<MobileElement>) driver.findElementsByAccessibilityId("SomeAccessibilityID");
     //List<MobileElement> elementsTwo = (List<MobileElement>) driver.findElementsByClassName("SomeClassName");
-
-    // TODO: 19.11.2021 Сделать отдельные классы для поиска элементов (PageObject)
-//        public class IOSPageFactory {
-//
-//            public IOSPageFactory(IOSDriver<IOSElement> driver) {
-//                this.driver = driver;
-//                PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-//
-//            }
-//
-//
-//            @iOSXCUITFindBy  (xpath = "//XCUIElementTypeButton[@name='SIGN IN']")
-//            public static WebElement YellowSignIn1;
-
-
-    // TODO: 19.11.2021 Запросить ссылку на gitlab и выдачу прав для создания проекта для АТ
 
 
     // Test that it was successful by checking the document title

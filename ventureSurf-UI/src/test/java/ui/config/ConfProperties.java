@@ -19,19 +19,19 @@ public class ConfProperties {
     private static AppiumDriverLocalService service;
 
     @BeforeSuite
-    public void globalSetup () throws IOException {
+    public void globalSetup() throws IOException {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
     }
 
     @AfterSuite
-    public void globalTearDown () {
+    public void globalTearDown() {
         if (service != null) {
             service.stop();
         }
     }
 
-    public URL getServiceUrl () {
+    public URL getServiceUrl() {
         return service.getUrl();
     }
 
