@@ -54,7 +54,6 @@ public class IOSTests extends ConfProperties {
     public void login() throws InterruptedException {
         // TODO: 29.11.2021 найти способ сброса кешей или переустановки приложения, либо делать разлогин каждый раз перед закуском тестов
 //        if (loginElements.laFirstText.getText()){
-        appiumDriver.launchApp();
         loginElements.sendPhoneNumber();
         loginElements.acceptUserAgreement();
         loginElements.submitLogBtn();
