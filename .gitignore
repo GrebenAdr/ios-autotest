@@ -4,3 +4,7 @@
 /.idea
 /allure-results
 /.DS_Store
+/ventureSurf-UI/target/
+/.allure/
+/ventureSurf-UI/.allure/
+/ventureSurf-UI/allure-results/

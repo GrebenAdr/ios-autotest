@@ -1,0 +1,112 @@
+image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/markhobson/maven-chrome
+
+stages:
+  - dump
+  - restore
+  - test
+  - deploy
+  - history
+  - allure
+  - pages
+
+variables:
+  MAVEN_REPO_LOCAL: $CI_PROJECT_DIR/.m2/repository
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$MAVEN_REPO_LOCAL -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+  MAVEN_CLI_OPTS: "-X -U --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+#  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_DRIVER: "overlay2"
+  DOCKER_TLS_CERTDIR: /certs
+  HOST_SOURCES: /opt/sources
+  M2_REPO: $HOST_SOURCES/.m2/repository
+  BUILDS: /opt/total-latest
+  HOST: $api_test_host
+
+include:
+  - project: DEPR/ias_tarif/gitlab-ci
+    file: gitlab-ci-dump.yml
+  - project: DEPR/ias_tarif/gitlab-ci
+    file: gitlab-ci-restore.yml
+
+
+test-job:
+  allow_failure: true
+  stage: test
+  tags:
+    - test
+  script:
+    - PROFILE="all-tests"
+    - echo $PROFILE
+    - mvn -P$PROFILE clean test -B -e -Dmaven.repo.local=$M2_REPO
+  artifacts:
+    when: always
+    paths:
+      - api-tests/target/allure-results
+    expire_in: 1 hour
+    reports:
+      junit:
+        - api-tests/target/surefire-reports/TEST-*.xml
+        - api-tests/target/failsafe-reports/TEST-*.xml
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "master"
+      when: always
+    - when: never
+
+history-job:
+  stage: history
+  allow_failure: true
+  needs:
+    - test-job
+  image: storytel/alpine-bash-curl
+  tags:
+    - test
+  script:
+#    - curl --location --output artifacts.zip --header "PRIVATE-TOKEN:J8xJaXWWm37YPjysNDyu" "https://gitlab.croc.ru/api/v4/projects/2646/jobs/artifacts/master/download?job=pages"
+    - apk add unzip
+    - ls -la
+    - unzip artifacts.zip
+    - chmod -R 777 public
+    - cp -r ./public/history ./api-tests/target/allure-results
+  artifacts:
+    when: always
+    paths:
+      - artifacts*.zip
+      - api-tests/target/allure-results # Сохраняем данные
+    expire_in: 30 days
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "master"
+      when: always
+    - when: never
+
+allure:
+  stage: allure
+  image: frankescobar/allure-docker-service
+  tags:
+    - test
+  script:
+    - allure generate -c api-tests/target/allure-results -o ./allure-report
+  artifacts:
+    paths:
+      - ./allure-results
+      - ./allure-report
+    expire_in: 1 day
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "master"
+      when: always
+    - when: never
+
+pages:
+  stage: pages
+  tags:
+    - test
+  script:
+    - mkdir public
+    - mv ./allure-report/* public
+  artifacts:
+    when: always
+    paths:
+      - public
+    expire_in: 30 days
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "master"
+      when: always
+    - when: never

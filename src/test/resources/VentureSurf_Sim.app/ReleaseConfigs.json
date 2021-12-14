@@ -1,7 +1,0 @@
-{
-  "minimumVersion": 1.0,
-  "features": {
-    "isChatEnabled": false,
-    "isNotificationOnNavigationBarEnabled": false
-  }
-}
