@@ -4,14 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.croc</groupId>
+    <groupId>ru.croc</groupId>
     <artifactId>VentureSurf</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
+    <modules>
+        <module>ventureSurf-UI</module>
+    </modules>
 
     <properties>
         <allure.version>2.13.7</allure.version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <aspectj.version>1.9.5</aspectj.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.java.version>1.8</project.java.version>
     </properties>
 
     <dependencies>
@@ -53,4 +60,53 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+    <profile>
+        <id>all-tests</id>
+        <modules>
+            <module>ventureSurf-UI</module>
+        </modules>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.3.2</version>
+                    <configuration>
+                        <source>${project.java.version}</source>
+                        <target>${project.java.version}</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.12.4</version>
+                    <configuration>
+                        <argLine>
+                            -Dfile.encoding=UTF-8
+                            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                        </argLine>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.aspectj</groupId>
+                            <artifactId>aspectjweaver</artifactId>
+                            <version>${aspectj.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>io.qameta.allure</groupId>
+                    <artifactId>allure-maven</artifactId>
+                    <version>2.10.0</version>
+                    <configuration>
+                        <reportVersion>${allure.version}</reportVersion>
+                        <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+    </profiles>
 </project>

@@ -1,10 +1,5 @@
-/target/
-/allure-results/
-/.idea/
-/.idea
-/allure-results
-/.DS_Store
-/ventureSurf-UI/target/
 /.allure/
+/.idea/
+/target/
 /ventureSurf-UI/.allure/
-/ventureSurf-UI/allure-results/
+/ventureSurf-UI/target/
