@@ -3,9 +3,10 @@ package ui.steps;
 import org.testng.Assert;
 import ui.pages.*;
 
-import static ui.tests.IOSTests.appiumDriver;
+import static ui.tests.IOSTest.appiumDriver;
 
 public class StepSuit {
+
 
     LoginElements loginElements = new LoginElements(appiumDriver);
     SwipeWindow swipeWindow = new SwipeWindow(appiumDriver);
