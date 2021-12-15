@@ -10,7 +10,6 @@ import org.testng.SkipException;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
-import java.io.IOException;
 import java.net.URL;
 
 @Slf4j
@@ -19,7 +18,7 @@ public class ConfProperties {
     private static AppiumDriverLocalService service;
 
     @BeforeSuite
-    public void globalSetup() throws IOException {
+    public void globalSetup() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
     }

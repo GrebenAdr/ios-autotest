@@ -5,7 +5,6 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.qameta.allure.Feature;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.Assert;
 import org.testng.annotations.*;
 import ui.config.ConfProperties;
 import ui.config.TestResultsListener;
@@ -42,7 +41,6 @@ public class IOSTests extends ConfProperties {
 //        capabilities.setCapability("fullReset", false);
         capabilities.setCapability("autoAcceptAlerts", true);
         capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 300);
-//        capabilities.setCapability("app", "/Users/cimacmini/IdeaProjects/VentureSurf/src/test/resources/VentureSurf_Sim.app");
         File filePath = new File(System.getProperty("user.dir"));
         File appDir = new File(filePath, "/src/test/resources/app");
         File app = new File(appDir, "VentureSurf_Sim.app");
@@ -55,27 +53,19 @@ public class IOSTests extends ConfProperties {
         meetings = new Meetings(appiumDriver);
         profile = new Profile(appiumDriver);
         tabBar = new TabBar(appiumDriver);
-//        stepSuit = new StepSuit(appiumDriver);
+        stepSuit = new StepSuit();
     }
+
 
     @Test(description = "Логин в приложение")
     public void login() {
-//        stepSuit.login();
-        loginElements.getLoginField().clear();
-        loginElements.getLoginField().sendKeys("+15552222222");
-        loginElements.getLabelAgree().click();
-        loginElements.getSubmitBtn().click();
-        loginElements.getPassField().sendKeys("123123");
-        Assert.assertNotNull(loginElements.laLabel.getText(), "Ошибка логина");
+       stepSuit.login();
     }
 
-    // TODO: 10.12.2021 Не всегда логин проходит и тогда этот AfterClass тоже будет выдавать ошибку. Усовершенствовать
+    // TODO: 10.12.2021 Не всегда логин проходит и тогда этот AfterClass тоже будет выдавать ошибку. Надо усовершенствовать
     @AfterClass
     public void logout() {
-//        stepSuit.logout();
-        profile.getProfileSettingsBtn().click();
-        profile.getSignOutBtn().click();
-        Assert.assertNotNull(loginElements.laFirstText.getText(), "Ошибка логаута");
+        stepSuit.logout();
     }
 
     @AfterSuite

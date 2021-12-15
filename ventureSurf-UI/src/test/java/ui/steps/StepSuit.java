@@ -1,25 +1,21 @@
 package ui.steps;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import ui.config.ConfProperties;
 import ui.pages.*;
 
+import static ui.tests.IOSTests.appiumDriver;
 
-public class StepSuit extends ConfProperties {
+public class StepSuit {
 
-    public static AppiumDriver appiumDriver;
 
-    LoginElements loginElements;
-    SwipeWindow swipeWindow;
-    Contacts contacts;
-    Meetings meetings;
-    Profile profile;
-    TabBar tabBar;
+    LoginElements loginElements = new LoginElements(appiumDriver);
+    SwipeWindow swipeWindow = new SwipeWindow(appiumDriver);
+    Contacts contacts = new Contacts(appiumDriver);
+    Meetings meetings = new Meetings(appiumDriver);
+    Profile profile = new Profile(appiumDriver);
+    TabBar tabBar = new TabBar(appiumDriver);
 
-    public void login() throws InterruptedException {
+    public void login() {
         // TODO: 29.11.2021 найти способ сброса кешей или переустановки приложения, либо делать разлогин каждый раз перед закуском тестов
 //        if (loginElements.laFirstText.getText()){
 
@@ -42,10 +38,5 @@ public class StepSuit extends ConfProperties {
         profile.getSignOutBtn().click();
         // TODO: 10.12.2021 Поиск работает. Немного переделать assert
         Assert.assertNotNull(loginElements.laFirstText.getText(), "Ошибка логаута");
-    }
-
-    public StepSuit(AppiumDriver appiumDriver) {
-        this.appiumDriver = appiumDriver;
-        PageFactory.initElements(new AppiumFieldDecorator(appiumDriver), this);
     }
 }

@@ -6,12 +6,10 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.openqa.selenium.support.PageFactory;
-import ui.config.ConfProperties;
 
 @Data
-public class LoginElements extends ConfProperties {
+public class LoginElements {
 
     private AppiumDriver appiumDriver;
 
