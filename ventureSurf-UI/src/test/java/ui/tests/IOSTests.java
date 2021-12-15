@@ -59,7 +59,7 @@ public class IOSTests extends ConfProperties {
 
     @Test(description = "Логин в приложение")
     public void login() {
-       stepSuit.login();
+        stepSuit.login();
     }
 
     // TODO: 10.12.2021 Не всегда логин проходит и тогда этот AfterClass тоже будет выдавать ошибку. Надо усовершенствовать

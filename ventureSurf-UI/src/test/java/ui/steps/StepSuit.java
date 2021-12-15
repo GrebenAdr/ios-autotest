@@ -7,7 +7,6 @@ import static ui.tests.IOSTests.appiumDriver;
 
 public class StepSuit {
 
-
     LoginElements loginElements = new LoginElements(appiumDriver);
     SwipeWindow swipeWindow = new SwipeWindow(appiumDriver);
     Contacts contacts = new Contacts(appiumDriver);
