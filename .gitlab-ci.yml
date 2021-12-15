@@ -18,11 +18,11 @@ variables:
   M2_REPO: $HOST_SOURCES/.m2/repository
   BUILDS: /opt/total-latest
 
-include:
-  - project: DEPR/ias_tarif/gitlab-ci
-    file: gitlab-ci-dump.yml
-  - project: DEPR/ias_tarif/gitlab-ci
-    file: gitlab-ci-restore.yml
+#include:
+#  - project: DEPR/ias_tarif/gitlab-ci
+#    file: gitlab-ci-dump.yml
+#  - project: DEPR/ias_tarif/gitlab-ci
+#    file: gitlab-ci-restore.yml
 
 
 test-job:
