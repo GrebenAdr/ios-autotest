@@ -5,6 +5,7 @@ stages:
   - history
   - allure
   - pages
+  - deploy
 
 variables:
   MAVEN_REPO_LOCAL: $CI_PROJECT_DIR/.m2/repository
