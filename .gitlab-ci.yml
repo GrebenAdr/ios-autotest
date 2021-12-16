@@ -20,7 +20,7 @@ variables:
   BUILDS: /opt/total-latest
 
 
-
+#test
 #include:
 #  - project: DEPR/ias_tarif/gitlab-ci
 #    file: gitlab-ci-dump.yml
