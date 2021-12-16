@@ -18,6 +18,10 @@ variables:
   M2_REPO: $HOST_SOURCES/.m2/repository
   BUILDS: /opt/total-latest
 
+
+before_script:
+  - curl "https://nodejs.org/dist/latest/node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\.pkg</a>.*|\1|p')}.pkg" > "$HOME/Downloads/node-latest.pkg" && sudo installer -store -pkg "$HOME/Downloads/node-latest.pkg" -target "/"
+
 #include:
 #  - project: DEPR/ias_tarif/gitlab-ci
 #    file: gitlab-ci-dump.yml
