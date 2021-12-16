@@ -1,6 +1,7 @@
 image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/markhobson/maven-chrome
 
 stages:
+  - build
   - test
   - history
   - allure
@@ -28,6 +29,7 @@ variables:
 
 
 test-job:
+  image: docker pull node
   allow_failure: true
   stage: test
   script:
