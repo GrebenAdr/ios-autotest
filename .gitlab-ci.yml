@@ -19,9 +19,6 @@ variables:
   BUILDS: /opt/total-latest
 
 
-before_script:
-  - curl "https://nodejs.org/dist/latest/node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\.pkg</a>.*|\1|p')}.pkg" > "$HOME/Downloads/node-latest.pkg"
-  - sudo installer -store -pkg "$HOME/Downloads/node-latest.pkg" -target "/"
 
 #include:
 #  - project: DEPR/ias_tarif/gitlab-ci
@@ -34,6 +31,9 @@ test-job:
   allow_failure: true
   stage: test
   script:
+    - curl "https://nodejs.org/dist/latest/node-${VERSION:-$(curl https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\.pkg</a>.*|\1|p')}.pkg" > "$HOME/Downloads/node-latest.pkg"
+    - sudo installer -store -pkg "$HOME/Downloads/node-latest.pkg" -target "/"
+    - appium --address 127.0.0.1 --port 4723
     - PROFILE="all-tests"
     - echo $PROFILE
     - mvn -P $PROFILE clean test -B -e -Dmaven.repo.local=$M2_REPO
