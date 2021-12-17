@@ -8,26 +8,28 @@ import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import lombok.Data;
 import org.openqa.selenium.support.PageFactory;
 
+import static ui.constants.Constants.*;
+
 @Data
 public class LoginElements {
 
     private AppiumDriver appiumDriver;
 
-    @AndroidFindBy(accessibility = "textPhone")
-    @iOSXCUITFindBy(accessibility = "textPhone")
+    @AndroidFindBy(accessibility = PHONE_NUMBER)
+    @iOSXCUITFindBy(accessibility = PHONE_NUMBER)
     public MobileElement loginField;
 
-    @AndroidFindBy(accessibility = "textCode")
-    @iOSXCUITFindBy(accessibility = "textCode")
+    @AndroidFindBy(accessibility = SMS_CODE)
+    @iOSXCUITFindBy(accessibility = SMS_CODE)
     public MobileElement passField;
 
-    @AndroidFindBy(accessibility = "btnContinue")
-    @iOSXCUITFindBy(accessibility = "btnContinue")
-    public MobileElement submitBtn;
+    @AndroidFindBy(accessibility = CONTINUE)
+    @iOSXCUITFindBy(accessibility = CONTINUE)
+    public MobileElement continueBtn;
 
-    @AndroidFindBy(accessibility = "laAgree")
-    @iOSXCUITFindBy(accessibility = "laAgree")
-    public MobileElement labelAgree;
+    @AndroidFindBy(accessibility = CHECKBOX)
+    @iOSXCUITFindBy(accessibility = CHECKBOX)
+    public MobileElement checkboxAgree;
 
     @AndroidFindBy(xpath = "//*[@label='VentureSurf']")
     @iOSXCUITFindBy(xpath = "//*[@label='VentureSurf']")

@@ -25,9 +25,9 @@ public class StepSuit {
         Allure.step("Ввод телефона");
         loginElements.getLoginField().sendKeys("+15552222222");
         Allure.step("Клик на чекбокс");
-        loginElements.getLabelAgree().click();
+        loginElements.getCheckboxAgree().click();
         Allure.step("Клик на кнопку Continue");
-        loginElements.getSubmitBtn().click();
+        loginElements.getContinueBtn().click();
         Allure.step("Ввод пароля");
         loginElements.getPassField().sendKeys("123123");
         Allure.step("Пароль введен");
@@ -38,7 +38,7 @@ public class StepSuit {
 
     public void logout() {
         // TODO: 10.12.2021 Не видит id. Либо не тот указал, либо не там указал в приложении
-//        tabBar.getTabBarProfileBtn().click();
+        tabBar.getProfileTabBarItem().click();
         Allure.step("Клик на кнопку с настройками");
         profile.getProfileSettingsBtn().click();
         // TODO: 10.12.2021 Можно добавить скролл(но не обязательно - работает и без него)
@@ -48,6 +48,8 @@ public class StepSuit {
         // TODO: 10.12.2021 Поиск работает. Немного переделать assert
         Assert.assertNotNull(loginElements.laFirstText.getText(), "Ошибка логаута");
     }
+
+//    appiumDriver.findElementByAccessibilityId("businessPageCell").findElement(By.id("plusButton")).click();
 
 
 

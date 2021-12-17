@@ -8,16 +8,18 @@ import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import lombok.Data;
 import org.openqa.selenium.support.PageFactory;
 
+import static ui.constants.Constants.*;
+
 @Data
 public class Profile {
     private AppiumDriver appiumDriver;
 
-    @AndroidFindBy(accessibility = "profileSettingsBtn")
-    @iOSXCUITFindBy(accessibility = "profileSettingsBtn")
+    @AndroidFindBy(accessibility = MORE)
+    @iOSXCUITFindBy(accessibility = MORE)
     public MobileElement profileSettingsBtn;
 
-    @AndroidFindBy(accessibility = "signOutProfileBtn")
-    @iOSXCUITFindBy(accessibility = "signOutProfileBtn")
+    @AndroidFindBy(accessibility = LOGOUT)
+    @iOSXCUITFindBy(accessibility = LOGOUT)
     public MobileElement signOutBtn;
 
     public Profile(AppiumDriver appiumDriver) {

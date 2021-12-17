@@ -8,12 +8,14 @@ import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import lombok.Data;
 import org.openqa.selenium.support.PageFactory;
 
+import static ui.constants.Constants.PLUS;
+
 @Data
 public class Meetings {
     private AppiumDriver appiumDriver;
 
-    @AndroidFindBy(accessibility = "plusBtn")
-    @iOSXCUITFindBy(accessibility = "plusBtn")
+    @AndroidFindBy(accessibility = PLUS)
+    @iOSXCUITFindBy(accessibility = PLUS)
     public MobileElement plusBtn;
 
     public Meetings(AppiumDriver appiumDriver) {

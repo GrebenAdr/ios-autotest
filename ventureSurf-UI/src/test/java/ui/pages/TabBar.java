@@ -8,18 +8,28 @@ import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import lombok.Data;
 import org.openqa.selenium.support.PageFactory;
 
+import static ui.constants.Constants.*;
+
 @Data
 public class TabBar {
 
     private AppiumDriver appiumDriver;
 
-    @AndroidFindBy(accessibility = "tabBarSwipeBtn")
-    @iOSXCUITFindBy(accessibility = "tabBarSwipeBtn")
-    public MobileElement tabBarSwipeBtn;
+    @AndroidFindBy(accessibility = SWIPE)
+    @iOSXCUITFindBy(accessibility = SWIPE)
+    public MobileElement swipeTabBarItem;
 
-    @AndroidFindBy(accessibility = "tabBarProfileBtn")
-    @iOSXCUITFindBy(accessibility = "tabBarProfileBtn")
-    public MobileElement tabBarProfileBtn;
+    @AndroidFindBy(accessibility = CONTACTS)
+    @iOSXCUITFindBy(accessibility = CONTACTS)
+    public MobileElement contactsTabBarItem;
+
+    @AndroidFindBy(accessibility = CALENDAR_TAB)
+    @iOSXCUITFindBy(accessibility = CALENDAR_TAB)
+    public MobileElement calendarTabBarItem;
+
+    @AndroidFindBy(accessibility = PROFILE)
+    @iOSXCUITFindBy(accessibility = PROFILE)
+    public MobileElement profileTabBarItem;
 
     public TabBar(AppiumDriver appiumDriver) {
         this.appiumDriver = appiumDriver;
