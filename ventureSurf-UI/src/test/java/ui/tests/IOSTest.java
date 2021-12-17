@@ -35,7 +35,7 @@ public class IOSTest extends ConfProperties {
         String platformVersion = System.getenv("IOS_PLATFORM_VERSION");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("deviceName", deviceName == null ? "iPhone 12 Pro" : deviceName);
-        capabilities.setCapability("platformVersion", platformVersion == null ? "14.5" : platformVersion);
+        capabilities.setCapability("platformVersion", platformVersion == null ? "15.2" : platformVersion);
         capabilities.setCapability("automationName", "XCUITest");
 //        capabilities.setCapability("noReset", false);
 //        capabilities.setCapability("fullReset", false);

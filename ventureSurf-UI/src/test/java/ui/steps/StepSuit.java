@@ -48,4 +48,7 @@ public class StepSuit {
         // TODO: 10.12.2021 Поиск работает. Немного переделать assert
         Assert.assertNotNull(loginElements.laFirstText.getText(), "Ошибка логаута");
     }
+
+
+
 }

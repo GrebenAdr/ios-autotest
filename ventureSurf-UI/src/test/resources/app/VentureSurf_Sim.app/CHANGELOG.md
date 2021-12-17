@@ -37,6 +37,8 @@ Please consider formatting: a single whiteline between records and two whiteline
 
 ### Added
 
+- [Chat] show unread messages count in contact list
+
 - [Network] added mutuals requests
 
 - [Chat] implemented Copy, and Delete message actions
@@ -223,6 +225,8 @@ Please consider formatting: a single whiteline between records and two whiteline
 
 - [NotificationView] added logic for routing to chat view from notifications
 
+- [NotificationManager] created push credential for conversations service and added model for new message notification
+
 
 ### Changed
 
@@ -376,6 +380,8 @@ Please consider formatting: a single whiteline between records and two whiteline
 
 
 ### Fixed
+
+- [Appointments] fixed bug removing timeslot
 
 - [Chat] corrected Chat cell appearance
 
@@ -608,6 +614,8 @@ Please consider formatting: a single whiteline between records and two whiteline
 - [ContactCell] hide badge view under feature flag
 
 - [NotificationView] fixed order of notifications
+
+- [NotificationView] fixed buttons on like and mutual like notification cell
 
 
 ## [1.0.60] - 2021-04-30
