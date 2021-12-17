@@ -1,9 +1,11 @@
 package ui.steps;
 
 import io.qameta.allure.Allure;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import ui.pages.*;
 
+import static ui.constants.Constants.PLUS;
 import static ui.tests.IOSTest.appiumDriver;
 
 public class StepSuit {
@@ -49,7 +51,10 @@ public class StepSuit {
         Assert.assertNotNull(loginElements.laFirstText.getText(), "Ошибка логаута");
     }
 
-//    appiumDriver.findElementByAccessibilityId("businessPageCell").findElement(By.id("plusButton")).click();
+    public void validateCard() {
+        //    appiumDriver.findElementByAccessibilityId("businessPageCell").findElement(By.id("plusButton")).click();
+        profile.getBusinessPageCell().findElement(By.id(PLUS)).click();
+    }
 
 
 

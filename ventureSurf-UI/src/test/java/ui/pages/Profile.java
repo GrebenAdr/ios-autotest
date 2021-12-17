@@ -22,6 +22,14 @@ public class Profile {
     @iOSXCUITFindBy(accessibility = LOGOUT)
     public MobileElement signOutBtn;
 
+    @AndroidFindBy(accessibility = BUSINESS_PAGE)
+    @iOSXCUITFindBy(accessibility = BUSINESS_PAGE)
+    public MobileElement businessPageCell;
+
+//    @AndroidFindBy(accessibility = PLUS)
+//    @iOSXCUITFindBy(accessibility = PLUS)
+//    public MobileElement plusButton;
+    //    appiumDriver.findElementByAccessibilityId("businessPageCell").findElement(By.id("plusButton")).click();
     public Profile(AppiumDriver appiumDriver) {
         this.appiumDriver = appiumDriver;
         PageFactory.initElements(new AppiumFieldDecorator(appiumDriver), this);
