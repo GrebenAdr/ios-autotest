@@ -1,12 +1,12 @@
 package ui.tests;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.qameta.allure.Feature;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.*;
 import ui.config.ConfProperties;
+import ui.config.DriverUtils;
 import ui.config.TestResultsListener;
 import ui.pages.*;
 import ui.steps.StepSuit;
@@ -19,15 +19,13 @@ import java.util.concurrent.TimeUnit;
 @Feature("Smoke UI Login tests")
 public class IOSTest extends ConfProperties {
 
-    LoginElements loginElements;
-    SwipeWindow swipeWindow;
-    Contacts contacts;
-    Meetings meetings;
-    Profile profile;
+    LoginScreen loginElements;
+    SwipeScreen swipeWindow;
+    ContactsScreen contacts;
+    MeetingsScreen meetings;
+    ProfileScreen profile;
     TabBar tabBar;
     StepSuit stepSuit;
-
-    public static AppiumDriver appiumDriver;
 
     @BeforeSuite
     public void setUp() {
@@ -45,14 +43,14 @@ public class IOSTest extends ConfProperties {
         File appDir = new File(filePath, "/src/test/resources/app");
         File app = new File(appDir, "VentureSurf_Sim.app");
         capabilities.setCapability("app", app.getAbsolutePath());
-        appiumDriver = getDriver(false, capabilities);
-        appiumDriver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        loginElements = new LoginElements(appiumDriver);
-        swipeWindow = new SwipeWindow(appiumDriver);
-        contacts = new Contacts(appiumDriver);
-        meetings = new Meetings(appiumDriver);
-        profile = new Profile(appiumDriver);
-        tabBar = new TabBar(appiumDriver);
+        DriverUtils.appiumDriver = getDriver(false, capabilities);
+        DriverUtils.appiumDriver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        loginElements = new LoginScreen();
+        swipeWindow = new SwipeScreen();
+        contacts = new ContactsScreen();
+        meetings = new MeetingsScreen();
+        profile = new ProfileScreen();
+        tabBar = new TabBar();
         stepSuit = new StepSuit();
     }
 
@@ -70,8 +68,8 @@ public class IOSTest extends ConfProperties {
 
     @AfterSuite
     public void tearDown() {
-        appiumDriver.closeApp();
-        appiumDriver.quit();
+        DriverUtils.appiumDriver.closeApp();
+        DriverUtils.appiumDriver.quit();
     }
 
     //        Assert.assertTrue(appiumDriver.findElementsByClassName("UILayoutContainerView.UINavigationBar.UINavigationBarContentView.UILabel").toString().contains("VentureSurf"), "Ошибка логина");
