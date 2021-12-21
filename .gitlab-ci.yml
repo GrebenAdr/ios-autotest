@@ -29,9 +29,13 @@ variables:
 
 
 test-job:
-#  image: docker pull node
   allow_failure: true
   stage: test
+  image: node:latest
+  tags:
+    - test
+  before_script:
+    - appium --address 127.0.0.1 --port 4723
   script:
     - curl "https://nodejs.org/dist/latest/node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\.pkg</a>.*|\1|p')}.pkg" > "$HOME/Downloads/node-latest.pkg" && sudo installer -store -pkg "$HOME/Downloads/node-latest.pkg" -target "/"
     - PROFILE="all-tests"
@@ -57,6 +61,8 @@ history-job:
   needs:
     - test-job
   image: storytel/alpine-bash-curl
+  tags:
+    - test
   script:
     - curl --location --output artifacts.zip --header "PRIVATE-TOKEN:YRzNZC9zdY5xXPSQz1z_" "https://gitlab.croc.ru/api/v4/projects/2997/jobs/artifacts/master/download?job=pages"
     - apk add unzip
@@ -78,6 +84,8 @@ history-job:
 allure:
   stage: allure
   image: frankescobar/allure-docker-service
+  tags:
+    - test
   script:
     - allure generate -c ventureSurf-UI/target/allure-results -o ./allure-report
   artifacts:
@@ -92,6 +100,8 @@ allure:
 
 pages:
   stage: pages
+  tags:
+    - test
   script:
     - mkdir public
     - mv ./allure-report/* public
