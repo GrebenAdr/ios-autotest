@@ -31,7 +31,7 @@ variables:
 test-job:
   allow_failure: true
   stage: test
-#  image: node:latest
+  image: node:latest
   tags:
     - test
   before_script:
