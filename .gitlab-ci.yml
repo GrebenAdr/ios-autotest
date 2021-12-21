@@ -31,6 +31,7 @@ variables:
 test-job:
   allow_failure: true
   stage: test
+  image: maven:3.8.4-openjdk-8
 #  image: node:latest
 #  tags:
 #    - test
