@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 @Listeners(TestResultsListener.class)
 @Feature("Smoke UI Login tests")
 public class IOSTest extends ConfProperties {
-
+//
     LoginScreen loginElements;
     SwipeScreen swipeWindow;
     ContactsScreen contacts;
