@@ -1,4 +1,4 @@
-image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/markhobson/maven-chrome
+image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/quamotion/appium-docker-ios
 
 stages:
 #  - build
