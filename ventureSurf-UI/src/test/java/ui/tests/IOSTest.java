@@ -1,9 +1,13 @@
 package ui.tests;
 
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Feature;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Assert;
 import org.testng.annotations.*;
 import ui.config.ConfProperties;
 import ui.config.DriverUtils;
@@ -14,13 +18,17 @@ import ui.steps.StepSuit;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import static ui.config.DriverUtils.appiumDriver;
+import static ui.constants.Constants.CONTRACT_PROFILE;
+import static ui.constants.Constants.SWIPE_PROFILE;
+
 @Slf4j
 @Listeners(TestResultsListener.class)
 @Feature("Smoke UI Login tests")
 public class IOSTest extends ConfProperties {
 
-    LoginScreen loginElements;
-    SwipeScreen swipeWindow;
+    LoginScreen loginScreen;
+    SwipeScreen swipeScreen;
     ContactsScreen contacts;
     MeetingsScreen meetings;
     ProfileScreen profile;
@@ -43,10 +51,10 @@ public class IOSTest extends ConfProperties {
         File appDir = new File(filePath, "/src/test/resources/app");
         File app = new File(appDir, "VentureSurf_Sim.app");
         capabilities.setCapability("app", app.getAbsolutePath());
-        DriverUtils.appiumDriver = getDriver(false, capabilities);
-        DriverUtils.appiumDriver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        loginElements = new LoginScreen();
-        swipeWindow = new SwipeScreen();
+        appiumDriver = getDriver(false, capabilities);
+        appiumDriver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        loginScreen = new LoginScreen();
+        swipeScreen = new SwipeScreen();
         contacts = new ContactsScreen();
         meetings = new MeetingsScreen();
         profile = new ProfileScreen();
@@ -57,19 +65,36 @@ public class IOSTest extends ConfProperties {
 
     @Test(description = "Логин в приложение")
     public void login() {
-        stepSuit.login();
+        loginScreen.login("+15552222222", "123123");
+    }
+
+    @Test(description = "Добавить, а затем удалить карточку профиля человека", priority = 1)
+    public void connectAndDeletePersonProfile() throws InterruptedException {
+        // TODO: 21.12.2021 Расставить таймауты в нужных местах
+        contacts.init();
+        String profileName = stepSuit.getProfileName(SWIPE_PROFILE);
+        swipeScreen.connectToProfile();
+        stepSuit.tap(0.4);
+        contacts.clickSentTab();
+        contacts.cancelConnectionRequest();
+        stepSuit.tap(0.2);
+        // TODO: 21.12.2021 доделать swipe (сейчас не тянет, а нажимает) 
+        stepSuit.swipe();
+        Thread.sleep(5000);
+        MobileElement profileCard = appiumDriver.findElementByAccessibilityId(SWIPE_PROFILE).findElement(By.className("XCUIElementTypeStaticText"));
+        Assert.assertEquals(profileCard.getText(), profileName, "Имена должны совпадать");
     }
 
     // TODO: 10.12.2021 Не всегда логин проходит и тогда этот AfterClass тоже будет выдавать ошибку. Надо усовершенствовать
     @AfterClass
     public void logout() {
-        stepSuit.logout();
+        profile.logout();
     }
 
     @AfterSuite
     public void tearDown() {
-        DriverUtils.appiumDriver.closeApp();
-        DriverUtils.appiumDriver.quit();
+        appiumDriver.closeApp();
+        appiumDriver.quit();
     }
 
     //        Assert.assertTrue(appiumDriver.findElementsByClassName("UILayoutContainerView.UINavigationBar.UINavigationBarContentView.UILabel").toString().contains("VentureSurf"), "Ошибка логина");
