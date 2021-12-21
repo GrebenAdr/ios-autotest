@@ -34,8 +34,8 @@ test-job:
   image: node:latest
 #  tags:
 #    - test
-  before_script:
-    - appium --address 127.0.0.1 --port 4723
+#  before_script:
+#    - appium --address 127.0.0.1 --port 4723
   script:
     - curl "https://nodejs.org/dist/latest/node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\.pkg</a>.*|\1|p')}.pkg" > "$HOME/Downloads/node-latest.pkg" && sudo installer -store -pkg "$HOME/Downloads/node-latest.pkg" -target "/"
     - PROFILE="all-tests"
