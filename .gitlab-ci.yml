@@ -33,8 +33,8 @@ test-job:
   stage: test
   image: maven:3.8.4-openjdk-8
 #  image: node:latest
-#  tags:
-#    - test
+  tags:
+    - test
 #  before_script:
 #    - appium --address 127.0.0.1 --port 4723
   script:
@@ -62,8 +62,8 @@ history-job:
   needs:
     - test-job
   image: storytel/alpine-bash-curl
-#  tags:
-#    - test
+  tags:
+    - test
   script:
     - curl --location --output artifacts.zip --header "PRIVATE-TOKEN:YRzNZC9zdY5xXPSQz1z_" "https://gitlab.croc.ru/api/v4/projects/2997/jobs/artifacts/master/download?job=pages"
     - apk add unzip
@@ -87,6 +87,8 @@ allure:
   image: frankescobar/allure-docker-service
 #  tags:
 #    - test
+  needs:
+    - history-job
   script:
     - allure generate -c ventureSurf-UI/target/allure-results -o ./allure-report
   artifacts:
@@ -101,8 +103,10 @@ allure:
 
 pages:
   stage: pages
-#  tags:
-#    - test
+  tags:
+    - test
+  needs:
+    - allure
   script:
     - mkdir public
     - mv ./allure-report/* public
