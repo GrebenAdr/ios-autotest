@@ -1,12 +1,15 @@
 package ui.tests;
 
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Feature;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import ui.config.ConfProperties;
@@ -52,7 +55,7 @@ public class IOSTest extends ConfProperties {
         File app = new File(appDir, "VentureSurf_Sim.app");
         capabilities.setCapability("app", app.getAbsolutePath());
         appiumDriver = getDriver(false, capabilities);
-        appiumDriver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        appiumDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         loginScreen = new LoginScreen();
         swipeScreen = new SwipeScreen();
         contacts = new ContactsScreen();
@@ -63,24 +66,31 @@ public class IOSTest extends ConfProperties {
     }
 
 
-    @Test(description = "Логин в приложение")
+    @BeforeClass(description = "Логин в приложение")
     public void login() {
-        loginScreen.login("+15552222222", "123123");
+        loginScreen.init();
+        try{
+            loginScreen.login("+15552222222", "123123");
+        } catch (Exception e){
+            return;
+        }
     }
 
-    @Test(description = "Добавить, а затем удалить карточку профиля человека", priority = 1)
+    @Test(description = "Добавить, а затем удалить карточку профиля человека")
     public void connectAndDeletePersonProfile() throws InterruptedException {
         // TODO: 21.12.2021 Расставить таймауты в нужных местах
         contacts.init();
+        stepSuit.navigateAndUpdateSwipeScreen();
         String profileName = stepSuit.getProfileName(SWIPE_PROFILE);
+        Allure.step("Добавить(connect) карточку профиля человека");
         swipeScreen.connectToProfile();
         stepSuit.tap(0.4);
         contacts.clickSentTab();
         contacts.cancelConnectionRequest();
-        stepSuit.tap(0.2);
-        // TODO: 21.12.2021 доделать swipe (сейчас не тянет, а нажимает) 
-        stepSuit.swipe();
-        Thread.sleep(5000);
+        Allure.step("Удалить карточку профиля человека из Sent вкладки");
+        stepSuit.navigateAndUpdateSwipeScreen();
+//        WebDriverWait webDriverWait = new WebDriverWait(appiumDriver, 30);
+//        IOSElement slider = (IOSElement) webDriverWait.until(driver1 -> appiumDriver.findElementByClassName("XCUIElementTypeSlider"));
         MobileElement profileCard = appiumDriver.findElementByAccessibilityId(SWIPE_PROFILE).findElement(By.className("XCUIElementTypeStaticText"));
         Assert.assertEquals(profileCard.getText(), profileName, "Имена должны совпадать");
     }

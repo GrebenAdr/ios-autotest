@@ -23,9 +23,9 @@ public class SwipeScreen extends DriverUtils {
     public void connectToProfile() throws InterruptedException {
         MobileElement profile = appiumDriver.findElementByAccessibilityId(SWIPE_PROFILE).findElement(By.className("XCUIElementTypeStaticText"));
         profileName = profile.getText();
-        appiumDriver.findElementByAccessibilityId(SWIPE_PROFILE).findElement(By.className("XCUIElementTypeStaticText")).click();
+        profile.click();
         appiumDriver.findElementByXPath("//XCUIElementTypeButton[@name = 'Connect']").click();
-        Thread.sleep(7000);
+        Thread.sleep(3000);
         Assert.assertNotEquals(profile.getText(), profileName, "Профиль с именем \"" + profileName + "\" должен был пропасть со swipe экрана");
         // TODO: 21.12.2021 Добавить скриншот
     }

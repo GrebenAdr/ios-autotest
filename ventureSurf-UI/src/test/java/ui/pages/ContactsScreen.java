@@ -9,7 +9,6 @@ import org.testng.Assert;
 import ui.config.DriverUtils;
 
 import static ui.constants.Constants.CONTRACT_PROFILE;
-import static ui.constants.Constants.SWIPE_PROFILE;
 
 @Getter
 public class ContactsScreen extends DriverUtils {
@@ -29,12 +28,18 @@ public class ContactsScreen extends DriverUtils {
     }
 
     public void cancelConnectionRequest() throws InterruptedException {
+        Thread.sleep(1500);
         MobileElement contractProfile = appiumDriver.findElementByAccessibilityId(CONTRACT_PROFILE).findElement(By.className("XCUIElementTypeStaticText"));
         profileName = contractProfile.getText();
-        appiumDriver.findElementByAccessibilityId(CONTRACT_PROFILE).findElement(By.className("XCUIElementTypeStaticText")).click();
+        contractProfile.click();
         appiumDriver.findElementByXPath("//XCUIElementTypeButton[@name = 'Cancel Connection Request']").click();
-        Thread.sleep(7000);
-        Assert.assertNotEquals(contractProfile.getText(), profileName, "Профиль с именем \"" + profileName + "\" должен был пропасть из вкладки Sent");
+        Thread.sleep(3000);
+        contractProfile = appiumDriver.findElementByAccessibilityId(CONTRACT_PROFILE).findElement(By.className("XCUIElementTypeStaticText"));
+        if (contractProfile.getText().equals("No invites")) {
+            Assert.assertNotEquals(contractProfile.getText(), profileName, "Профиль с именем \"" + profileName + "\" должен был пропасть из вкладки Sent");
+        } else {
+            Assert.assertTrue(true);
+        }
         // TODO: 21.12.2021 Добавить скриншот
     }
 }
