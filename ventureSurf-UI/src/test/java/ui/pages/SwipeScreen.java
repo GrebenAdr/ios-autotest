@@ -21,7 +21,7 @@ public class SwipeScreen extends DriverUtils {
 //    public MobileElement itemMenu;
 
     public void connectToProfile() throws InterruptedException {
-        MobileElement profile = appiumDriver.findElementByAccessibilityId(SWIPE_PROFILE).findElement(By.className("XCUIElementTypeStaticText"));
+        MobileElement profile = (MobileElement) appiumDriver.findElementByAccessibilityId(SWIPE_PROFILE).findElements(By.className("XCUIElementTypeStaticText")).get(0);
         profileName = profile.getText();
         profile.click();
         appiumDriver.findElementByXPath("//XCUIElementTypeButton[@name = 'Connect']").click();

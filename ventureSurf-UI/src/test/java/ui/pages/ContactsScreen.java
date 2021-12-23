@@ -29,7 +29,7 @@ public class ContactsScreen extends DriverUtils {
 
     public void cancelConnectionRequest() throws InterruptedException {
         Thread.sleep(1500);
-        MobileElement contractProfile = appiumDriver.findElementByAccessibilityId(CONTRACT_PROFILE).findElement(By.className("XCUIElementTypeStaticText"));
+        MobileElement contractProfile = (MobileElement) appiumDriver.findElementByAccessibilityId(CONTRACT_PROFILE).findElements(By.className("XCUIElementTypeStaticText")).get(0);
         profileName = contractProfile.getText();
         contractProfile.click();
         appiumDriver.findElementByXPath("//XCUIElementTypeButton[@name = 'Cancel Connection Request']").click();

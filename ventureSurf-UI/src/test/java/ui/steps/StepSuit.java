@@ -9,7 +9,7 @@ import ui.config.DriverUtils;
 public class StepSuit extends DriverUtils {
 
     public String getProfileName(String idCard) {
-        return appiumDriver.findElementByAccessibilityId(idCard).findElement(By.className("XCUIElementTypeStaticText")).getText();
+        return appiumDriver.findElementByAccessibilityId(idCard).findElements(By.className("XCUIElementTypeStaticText")).get(0).getText();
     }
 
     public void tap(double indexWidth) {
