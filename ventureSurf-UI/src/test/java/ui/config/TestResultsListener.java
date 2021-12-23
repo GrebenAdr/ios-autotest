@@ -1,10 +1,8 @@
 package ui.config;
 
-import com.codeborne.selenide.Screenshots;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.testng.ITestResult;
@@ -12,7 +10,6 @@ import org.testng.TestListenerAdapter;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 import static ui.config.DriverUtils.appiumDriver;
 
@@ -36,20 +33,13 @@ public class TestResultsListener extends TestListenerAdapter {
     public void onTestFailure(ITestResult result) {
         log.error("Test FAILED");
         //save log on failure
-
         try {
             saveLog(result.getName(), result.getThrowable());
             if (result.getStatus() == ITestResult.FAILURE) {
-                File scrFile = ((TakesScreenshot)appiumDriver).getScreenshotAs(OutputType.FILE);
-//                FileUtils.copyFile(scrFile, new File("errorScreenshots\\" + result.getName() + "-"
-//                        + Arrays.toString(result.getParameters()) +  ".jpg"));
+                File scrFile = ((TakesScreenshot) appiumDriver).getScreenshotAs(OutputType.FILE);
                 InputStream targetStream = new FileInputStream(scrFile);
                 Allure.addAttachment("Screenshot on fail", "image/png", targetStream, "png");
             }
-//            File screenshot = Screenshots.takeScreenShotAsFile();
-//            assert screenshot != null;
-//            InputStream targetStream = new FileInputStream(screenshot);
-//            Allure.addAttachment("Screenshot on fail", "image/png", targetStream, "png");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,17 +49,10 @@ public class TestResultsListener extends TestListenerAdapter {
     @Override
     public void onTestSuccess(ITestResult result) {
         log.info("Test PASSED");
-
         try {
-            File scrFile = ((TakesScreenshot)appiumDriver).getScreenshotAs(OutputType.FILE);
-//            FileUtils.copyFile(scrFile, new File("errorScreenshots\\" + result.getName() + "-"
-//                    + Arrays.toString(result.getParameters()) +  ".jpg"));
+            File scrFile = ((TakesScreenshot) appiumDriver).getScreenshotAs(OutputType.FILE);
             InputStream targetStream = new FileInputStream(scrFile);
             Allure.addAttachment("Screenshot of a successful test", "image/png", targetStream, "png");
-            //            File screenshot = Screenshots.takeScreenShotAsFile();
-//            assert screenshot != null;
-//            InputStream targetStream = new FileInputStream(screenshot);
-//            Allure.addAttachment("Screenshot on fail", "image/png", targetStream, "png");
         } catch (IOException e) {
             e.printStackTrace();
         }
