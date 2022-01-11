@@ -1,7 +1,7 @@
 image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/quamotion/appium-docker-ios
 
 stages:
-#  - build
+  - build
   - test
   - history
   - allure
@@ -27,6 +27,17 @@ variables:
 #  - project: DEPR/ias_tarif/gitlab-ci
 #    file: gitlab-ci-restore.yml
 
+build:
+  stage: test
+  image: maven:3.8.4-openjdk-8
+  script:
+    - appium --address 127.0.0.1 --port 4723
+  artifacts:
+    when: always
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "master"
+      when: always
+    - when: never
 
 test-job:
   allow_failure: true
