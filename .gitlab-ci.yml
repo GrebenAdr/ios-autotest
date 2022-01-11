@@ -32,11 +32,11 @@ test-job:
   allow_failure: true
   stage: test
   image: maven:3.8.4-openjdk-8
-#  image: node:latest
-  tags:
-    - test
-#  before_script:
-#    - appium --address 127.0.0.1 --port 4723
+##  image: node:latest
+#  tags:
+#    - test
+##  before_script:
+##    - appium --address 127.0.0.1 --port 4723
   script:
     - curl "https://nodejs.org/dist/latest/node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\.pkg</a>.*|\1|p')}.pkg" > "$HOME/Downloads/node-latest.pkg" && sudo installer -store -pkg "$HOME/Downloads/node-latest.pkg" -target "/"
     - PROFILE="all-tests"
@@ -62,8 +62,8 @@ history-job:
   needs:
     - test-job
   image: storytel/alpine-bash-curl
-  tags:
-    - test
+#  tags:
+#    - test
   script:
     - curl --location --output artifacts.zip --header "PRIVATE-TOKEN:YRzNZC9zdY5xXPSQz1z_" "https://gitlab.croc.ru/api/v4/projects/2997/jobs/artifacts/master/download?job=pages"
     - apk add unzip
@@ -103,8 +103,8 @@ allure:
 
 pages:
   stage: pages
-  tags:
-    - test
+#  tags:
+#    - test
   needs:
     - allure
   script:
